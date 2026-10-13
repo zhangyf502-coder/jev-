@@ -1,0 +1,3 @@
+# No pip dependencies are required for the benchmark runner.
+# Python 3.9+ standard library only.
+# For optional spreadsheet generation, the file was pre-created using artifact_tool.

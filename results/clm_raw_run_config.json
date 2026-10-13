@@ -1,0 +1,8 @@
+{
+  "name": "clm_raw",
+  "model": "clm-raw",
+  "endpoint": "http://127.0.0.1:8700/v1/systemone",
+  "dataset_sha256": "ef50fdb71d681b679ea21620197999f8bc8a2cfe9d3e25c438ec114ca68e67d7",
+  "dataset": "/root/CLM/database/jev-/clm_jev_benchmark/data/clm_jev_1300.jsonl",
+  "created_utc": "2026-10-13T04:30:32.167589+00:00"
+}

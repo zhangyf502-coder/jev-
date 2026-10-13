@@ -1,0 +1,1072 @@
+{
+  "name": "jev_latest",
+  "created": "2026-10-13T07:06:57.829955+00:00",
+  "primary": {
+    "count": 1300,
+    "successful": 1300,
+    "errors": 0,
+    "success_rate": 1.0,
+    "accuracy_all": 0.9161538461538462,
+    "accuracy_success_only": 0.9161538461538462,
+    "macro_f1": 0.922679,
+    "ece_10bins": 0.036936,
+    "brier_multiclass_or_binary": 0.109443,
+    "latency_p50_ms": 259.13,
+    "latency_p95_ms": 406.035,
+    "latency_p99_ms": 1072.912,
+    "latency_mean_ms": 298.213,
+    "score_mae": 0.265,
+    "score_within_one": 1.0,
+    "mean_confidence": 0.895371,
+    "gate_0.70": {
+      "coverage": 0.86,
+      "accepted": 1118,
+      "error_rate": 0.033095,
+      "errors": 37
+    },
+    "gate_0.80": {
+      "coverage": 0.786923,
+      "accepted": 1023,
+      "error_rate": 0.005865,
+      "errors": 6
+    },
+    "gate_0.90": {
+      "coverage": 0.716154,
+      "accepted": 931,
+      "error_rate": 0.003222,
+      "errors": 3
+    },
+    "gate_0.95": {
+      "coverage": 0.640769,
+      "accepted": 833,
+      "error_rate": 0.0012,
+      "errors": 1
+    }
+  },
+  "all_runs": {
+    "count": 2600,
+    "successful": 2600,
+    "errors": 0,
+    "success_rate": 1.0,
+    "accuracy_all": 0.9161538461538462,
+    "accuracy_success_only": 0.9161538461538462,
+    "macro_f1": 0.922679,
+    "ece_10bins": 0.036936,
+    "brier_multiclass_or_binary": 0.109441,
+    "latency_p50_ms": 269.324,
+    "latency_p95_ms": 425.157,
+    "latency_p99_ms": 1144.606,
+    "latency_mean_ms": 317.305,
+    "score_mae": 0.265,
+    "score_within_one": 1.0,
+    "mean_confidence": 0.895372,
+    "gate_0.70": {
+      "coverage": 0.86,
+      "accepted": 2236,
+      "error_rate": 0.033095,
+      "errors": 74
+    },
+    "gate_0.80": {
+      "coverage": 0.786923,
+      "accepted": 2046,
+      "error_rate": 0.005865,
+      "errors": 12
+    },
+    "gate_0.90": {
+      "coverage": 0.716154,
+      "accepted": 1862,
+      "error_rate": 0.003222,
+      "errors": 6
+    },
+    "gate_0.95": {
+      "coverage": 0.640769,
+      "accepted": 1666,
+      "error_rate": 0.0012,
+      "errors": 2
+    }
+  },
+  "groups": {
+    "category": {
+      "commerce_workflow": {
+        "count": 120,
+        "successful": 120,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 1.0,
+        "accuracy_success_only": 1.0,
+        "macro_f1": 1.0,
+        "ece_10bins": 0.005833,
+        "brier_multiclass_or_binary": 0.000817,
+        "latency_p50_ms": 258.211,
+        "latency_p95_ms": 405.536,
+        "latency_p99_ms": 872.755,
+        "latency_mean_ms": 284.982,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.994167,
+        "gate_0.70": {
+          "coverage": 1.0,
+          "accepted": 120,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 1.0,
+          "accepted": 120,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 1.0,
+          "accepted": 120,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.916667,
+          "accepted": 110,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "customer_support": {
+        "count": 160,
+        "successful": 160,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.9875,
+        "accuracy_success_only": 0.9875,
+        "macro_f1": 0.987469,
+        "ece_10bins": 0.022349,
+        "brier_multiclass_or_binary": 0.016985,
+        "latency_p50_ms": 259.749,
+        "latency_p95_ms": 423.88,
+        "latency_p99_ms": 658.831,
+        "latency_mean_ms": 296.659,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.972776,
+        "gate_0.70": {
+          "coverage": 0.96875,
+          "accepted": 155,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 0.9625,
+          "accepted": 154,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.95,
+          "accepted": 152,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.93125,
+          "accepted": 149,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "document_grounding": {
+        "count": 120,
+        "successful": 120,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 1.0,
+        "accuracy_success_only": 1.0,
+        "macro_f1": 1.0,
+        "ece_10bins": 0.01075,
+        "brier_multiclass_or_binary": 0.002304,
+        "latency_p50_ms": 257.572,
+        "latency_p95_ms": 351.455,
+        "latency_p99_ms": 603.656,
+        "latency_mean_ms": 273.314,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.98925,
+        "gate_0.70": {
+          "coverage": 0.991667,
+          "accepted": 119,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 0.983333,
+          "accepted": 118,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.966667,
+          "accepted": 116,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.95,
+          "accepted": 114,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "incident_response": {
+        "count": 120,
+        "successful": 120,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 1.0,
+        "accuracy_success_only": 1.0,
+        "macro_f1": 1.0,
+        "ece_10bins": 0.035761,
+        "brier_multiclass_or_binary": 0.00483,
+        "latency_p50_ms": 258.174,
+        "latency_p95_ms": 350.02,
+        "latency_p99_ms": 676.874,
+        "latency_mean_ms": 313.437,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.964239,
+        "gate_0.70": {
+          "coverage": 1.0,
+          "accepted": 120,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 1.0,
+          "accepted": 120,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.833333,
+          "accepted": 100,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.808333,
+          "accepted": 97,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "option_order_robustness": {
+        "count": 80,
+        "successful": 80,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.975,
+        "accuracy_success_only": 0.975,
+        "macro_f1": 0.97889,
+        "ece_10bins": 0.048466,
+        "brier_multiclass_or_binary": 0.042428,
+        "latency_p50_ms": 260.706,
+        "latency_p95_ms": 629.091,
+        "latency_p99_ms": 1159.803,
+        "latency_mean_ms": 311.646,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.945147,
+        "gate_0.70": {
+          "coverage": 0.9375,
+          "accepted": 75,
+          "error_rate": 0.013333,
+          "errors": 1
+        },
+        "gate_0.80": {
+          "coverage": 0.9125,
+          "accepted": 73,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.875,
+          "accepted": 70,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.7875,
+          "accepted": 63,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "out_of_scope": {
+        "count": 100,
+        "successful": 100,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.83,
+        "accuracy_success_only": 0.83,
+        "macro_f1": 0.807934,
+        "ece_10bins": 0.077999,
+        "brier_multiclass_or_binary": 0.207698,
+        "latency_p50_ms": 257.5,
+        "latency_p95_ms": 465.264,
+        "latency_p99_ms": 1913.688,
+        "latency_mean_ms": 340.488,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.832068,
+        "gate_0.70": {
+          "coverage": 0.68,
+          "accepted": 68,
+          "error_rate": 0.088235,
+          "errors": 6
+        },
+        "gate_0.80": {
+          "coverage": 0.58,
+          "accepted": 58,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.58,
+          "accepted": 58,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.58,
+          "accepted": 58,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "security_triage": {
+        "count": 120,
+        "successful": 120,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.75,
+        "accuracy_success_only": 0.75,
+        "macro_f1": 0.741667,
+        "ece_10bins": 0.205867,
+        "brier_multiclass_or_binary": 0.189947,
+        "latency_p50_ms": 258.293,
+        "latency_p95_ms": 359.165,
+        "latency_p99_ms": 878.592,
+        "latency_mean_ms": 297.542,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.834182,
+        "gate_0.70": {
+          "coverage": 0.75,
+          "accepted": 90,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 0.625,
+          "accepted": 75,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.625,
+          "accepted": 75,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.25,
+          "accepted": 30,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "semantic_duplicates": {
+        "count": 120,
+        "successful": 120,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 1.0,
+        "accuracy_success_only": 1.0,
+        "macro_f1": 1.0,
+        "ece_10bins": 0.0965,
+        "brier_multiclass_or_binary": 0.021065,
+        "latency_p50_ms": 260.35,
+        "latency_p95_ms": 395.344,
+        "latency_p99_ms": 1725.271,
+        "latency_mean_ms": 308.903,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.9035,
+        "gate_0.70": {
+          "coverage": 0.9,
+          "accepted": 108,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 0.8,
+          "accepted": 96,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.65,
+          "accepted": 78,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.65,
+          "accepted": 78,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "sentiment_scoring": {
+        "count": 100,
+        "successful": 100,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.87,
+        "accuracy_success_only": 0.87,
+        "macro_f1": 0.863164,
+        "ece_10bins": 0.09377,
+        "brier_multiclass_or_binary": 0.243738,
+        "latency_p50_ms": 259.005,
+        "latency_p95_ms": 326.943,
+        "latency_p99_ms": 1670.291,
+        "latency_mean_ms": 310.344,
+        "score_mae": 0.13,
+        "score_within_one": 1.0,
+        "mean_confidence": 0.792295,
+        "gate_0.70": {
+          "coverage": 0.73,
+          "accepted": 73,
+          "error_rate": 0.09589,
+          "errors": 7
+        },
+        "gate_0.80": {
+          "coverage": 0.47,
+          "accepted": 47,
+          "error_rate": 0.085106,
+          "errors": 4
+        },
+        "gate_0.90": {
+          "coverage": 0.32,
+          "accepted": 32,
+          "error_rate": 0.0625,
+          "errors": 2
+        },
+        "gate_0.95": {
+          "coverage": 0.21,
+          "accepted": 21,
+          "error_rate": 0.047619,
+          "errors": 1
+        }
+      },
+      "tool_routing": {
+        "count": 160,
+        "successful": 160,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.96875,
+        "accuracy_success_only": 0.96875,
+        "macro_f1": 0.968683,
+        "ece_10bins": 0.051971,
+        "brier_multiclass_or_binary": 0.066186,
+        "latency_p50_ms": 259.427,
+        "latency_p95_ms": 300.252,
+        "latency_p99_ms": 413.933,
+        "latency_mean_ms": 265.776,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.917726,
+        "gate_0.70": {
+          "coverage": 0.9375,
+          "accepted": 150,
+          "error_rate": 0.02,
+          "errors": 3
+        },
+        "gate_0.80": {
+          "coverage": 0.8875,
+          "accepted": 142,
+          "error_rate": 0.014085,
+          "errors": 2
+        },
+        "gate_0.90": {
+          "coverage": 0.6875,
+          "accepted": 110,
+          "error_rate": 0.009091,
+          "errors": 1
+        },
+        "gate_0.95": {
+          "coverage": 0.58125,
+          "accepted": 93,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "urgency_scoring": {
+        "count": 100,
+        "successful": 100,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.6,
+        "accuracy_success_only": 0.6,
+        "macro_f1": 0.466667,
+        "ece_10bins": 0.362971,
+        "brier_multiclass_or_binary": 0.541554,
+        "latency_p50_ms": 260.512,
+        "latency_p95_ms": 473.412,
+        "latency_p99_ms": 1073.422,
+        "latency_mean_ms": 302.919,
+        "score_mae": 0.4,
+        "score_within_one": 1.0,
+        "mean_confidence": 0.612136,
+        "gate_0.70": {
+          "coverage": 0.4,
+          "accepted": 40,
+          "error_rate": 0.5,
+          "errors": 20
+        },
+        "gate_0.80": {
+          "coverage": 0.2,
+          "accepted": 20,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.2,
+          "accepted": 20,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.2,
+          "accepted": 20,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      }
+    },
+    "question_type": {
+      "choice": {
+        "count": 860,
+        "successful": 860,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.9348837209302325,
+        "accuracy_success_only": 0.9348837209302325,
+        "macro_f1": 0.940197,
+        "ece_10bins": 0.036248,
+        "brier_multiclass_or_binary": 0.070864,
+        "latency_p50_ms": 258.952,
+        "latency_p95_ms": 403.988,
+        "latency_p99_ms": 922.303,
+        "latency_mean_ms": 298.239,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.926058,
+        "gate_0.70": {
+          "coverage": 0.904651,
+          "accepted": 778,
+          "error_rate": 0.012853,
+          "errors": 10
+        },
+        "gate_0.80": {
+          "coverage": 0.862791,
+          "accepted": 742,
+          "error_rate": 0.002695,
+          "errors": 2
+        },
+        "gate_0.90": {
+          "coverage": 0.796512,
+          "accepted": 685,
+          "error_rate": 0.00146,
+          "errors": 1
+        },
+        "gate_0.95": {
+          "coverage": 0.697674,
+          "accepted": 600,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "noul": {
+        "count": 240,
+        "successful": 240,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 1.0,
+        "accuracy_success_only": 1.0,
+        "macro_f1": 1.0,
+        "ece_10bins": 0.053625,
+        "brier_multiclass_or_binary": 0.011685,
+        "latency_p50_ms": 259.211,
+        "latency_p95_ms": 367.211,
+        "latency_p99_ms": 1114.338,
+        "latency_mean_ms": 291.108,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.946375,
+        "gate_0.70": {
+          "coverage": 0.945833,
+          "accepted": 227,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 0.891667,
+          "accepted": 214,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.808333,
+          "accepted": 194,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.8,
+          "accepted": 192,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "score": {
+        "count": 200,
+        "successful": 200,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.735,
+        "accuracy_success_only": 0.735,
+        "macro_f1": 0.700093,
+        "ece_10bins": 0.185185,
+        "brier_multiclass_or_binary": 0.392646,
+        "latency_p50_ms": 259.899,
+        "latency_p95_ms": 471.283,
+        "latency_p99_ms": 1165.689,
+        "latency_mean_ms": 306.631,
+        "score_mae": 0.265,
+        "score_within_one": 1.0,
+        "mean_confidence": 0.702216,
+        "gate_0.70": {
+          "coverage": 0.565,
+          "accepted": 113,
+          "error_rate": 0.238938,
+          "errors": 27
+        },
+        "gate_0.80": {
+          "coverage": 0.335,
+          "accepted": 67,
+          "error_rate": 0.059701,
+          "errors": 4
+        },
+        "gate_0.90": {
+          "coverage": 0.26,
+          "accepted": 52,
+          "error_rate": 0.038462,
+          "errors": 2
+        },
+        "gate_0.95": {
+          "coverage": 0.205,
+          "accepted": 41,
+          "error_rate": 0.02439,
+          "errors": 1
+        }
+      }
+    },
+    "language": {
+      "en": {
+        "count": 651,
+        "successful": 651,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.9370199692780338,
+        "accuracy_success_only": 0.9370199692780338,
+        "macro_f1": 0.941142,
+        "ece_10bins": 0.046803,
+        "brier_multiclass_or_binary": 0.089861,
+        "latency_p50_ms": 259.219,
+        "latency_p95_ms": 407.144,
+        "latency_p99_ms": 1069.896,
+        "latency_mean_ms": 292.674,
+        "score_mae": 0.25,
+        "score_within_one": 1.0,
+        "mean_confidence": 0.902124,
+        "gate_0.70": {
+          "coverage": 0.877112,
+          "accepted": 571,
+          "error_rate": 0.021016,
+          "errors": 12
+        },
+        "gate_0.80": {
+          "coverage": 0.814132,
+          "accepted": 530,
+          "error_rate": 0.003774,
+          "errors": 2
+        },
+        "gate_0.90": {
+          "coverage": 0.734255,
+          "accepted": 478,
+          "error_rate": 0.004184,
+          "errors": 2
+        },
+        "gate_0.95": {
+          "coverage": 0.671275,
+          "accepted": 437,
+          "error_rate": 0.002288,
+          "errors": 1
+        }
+      },
+      "zh": {
+        "count": 649,
+        "successful": 649,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.8952234206471494,
+        "accuracy_success_only": 0.8952234206471494,
+        "macro_f1": 0.878266,
+        "ece_10bins": 0.048772,
+        "brier_multiclass_or_binary": 0.129086,
+        "latency_p50_ms": 259.083,
+        "latency_p95_ms": 384.004,
+        "latency_p99_ms": 1043.911,
+        "latency_mean_ms": 303.77,
+        "score_mae": 0.28,
+        "score_within_one": 1.0,
+        "mean_confidence": 0.888597,
+        "gate_0.70": {
+          "coverage": 0.842835,
+          "accepted": 547,
+          "error_rate": 0.045704,
+          "errors": 25
+        },
+        "gate_0.80": {
+          "coverage": 0.75963,
+          "accepted": 493,
+          "error_rate": 0.008114,
+          "errors": 4
+        },
+        "gate_0.90": {
+          "coverage": 0.697997,
+          "accepted": 453,
+          "error_rate": 0.002208,
+          "errors": 1
+        },
+        "gate_0.95": {
+          "coverage": 0.610169,
+          "accepted": 396,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      }
+    },
+    "num_options": {
+      "2": {
+        "count": 240,
+        "successful": 240,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 1.0,
+        "accuracy_success_only": 1.0,
+        "macro_f1": 1.0,
+        "ece_10bins": 0.053625,
+        "brier_multiclass_or_binary": 0.011685,
+        "latency_p50_ms": 259.211,
+        "latency_p95_ms": 367.211,
+        "latency_p99_ms": 1114.338,
+        "latency_mean_ms": 291.108,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.946375,
+        "gate_0.70": {
+          "coverage": 0.945833,
+          "accepted": 227,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 0.891667,
+          "accepted": 214,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.808333,
+          "accepted": 194,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.8,
+          "accepted": 192,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "4": {
+        "count": 220,
+        "successful": 220,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.7863636363636364,
+        "accuracy_success_only": 0.7863636363636364,
+        "macro_f1": 0.774801,
+        "ece_10bins": 0.087486,
+        "brier_multiclass_or_binary": 0.198016,
+        "latency_p50_ms": 257.995,
+        "latency_p95_ms": 422.961,
+        "latency_p99_ms": 1700.334,
+        "latency_mean_ms": 317.063,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.833221,
+        "gate_0.70": {
+          "coverage": 0.718182,
+          "accepted": 158,
+          "error_rate": 0.037975,
+          "errors": 6
+        },
+        "gate_0.80": {
+          "coverage": 0.604545,
+          "accepted": 133,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.604545,
+          "accepted": 133,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.4,
+          "accepted": 88,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "5": {
+        "count": 200,
+        "successful": 200,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.735,
+        "accuracy_success_only": 0.735,
+        "macro_f1": 0.700093,
+        "ece_10bins": 0.185185,
+        "brier_multiclass_or_binary": 0.392646,
+        "latency_p50_ms": 259.899,
+        "latency_p95_ms": 471.283,
+        "latency_p99_ms": 1165.689,
+        "latency_mean_ms": 306.631,
+        "score_mae": 0.265,
+        "score_within_one": 1.0,
+        "mean_confidence": 0.702216,
+        "gate_0.70": {
+          "coverage": 0.565,
+          "accepted": 113,
+          "error_rate": 0.238938,
+          "errors": 27
+        },
+        "gate_0.80": {
+          "coverage": 0.335,
+          "accepted": 67,
+          "error_rate": 0.059701,
+          "errors": 4
+        },
+        "gate_0.90": {
+          "coverage": 0.26,
+          "accepted": 52,
+          "error_rate": 0.038462,
+          "errors": 2
+        },
+        "gate_0.95": {
+          "coverage": 0.205,
+          "accepted": 41,
+          "error_rate": 0.02439,
+          "errors": 1
+        }
+      },
+      "6": {
+        "count": 240,
+        "successful": 240,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 1.0,
+        "accuracy_success_only": 1.0,
+        "macro_f1": 1.0,
+        "ece_10bins": 0.020797,
+        "brier_multiclass_or_binary": 0.002823,
+        "latency_p50_ms": 258.174,
+        "latency_p95_ms": 386.808,
+        "latency_p99_ms": 839.183,
+        "latency_mean_ms": 299.209,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.979203,
+        "gate_0.70": {
+          "coverage": 1.0,
+          "accepted": 240,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.80": {
+          "coverage": 1.0,
+          "accepted": 240,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.90": {
+          "coverage": 0.916667,
+          "accepted": 220,
+          "error_rate": 0.0,
+          "errors": 0
+        },
+        "gate_0.95": {
+          "coverage": 0.8625,
+          "accepted": 207,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      },
+      "8": {
+        "count": 400,
+        "successful": 400,
+        "errors": 0,
+        "success_rate": 1.0,
+        "accuracy_all": 0.9775,
+        "accuracy_success_only": 0.9775,
+        "macro_f1": 0.978042,
+        "ece_10bins": 0.03677,
+        "brier_multiclass_or_binary": 0.041754,
+        "latency_p50_ms": 259.674,
+        "latency_p95_ms": 393.752,
+        "latency_p99_ms": 702.158,
+        "latency_mean_ms": 287.303,
+        "score_mae": null,
+        "score_within_one": null,
+        "mean_confidence": 0.94523,
+        "gate_0.70": {
+          "coverage": 0.95,
+          "accepted": 380,
+          "error_rate": 0.010526,
+          "errors": 4
+        },
+        "gate_0.80": {
+          "coverage": 0.9225,
+          "accepted": 369,
+          "error_rate": 0.00542,
+          "errors": 2
+        },
+        "gate_0.90": {
+          "coverage": 0.83,
+          "accepted": 332,
+          "error_rate": 0.003012,
+          "errors": 1
+        },
+        "gate_0.95": {
+          "coverage": 0.7625,
+          "accepted": 305,
+          "error_rate": 0.0,
+          "errors": 0
+        }
+      }
+    }
+  },
+  "by_pass": {
+    "1": {
+      "count": 1300,
+      "successful": 1300,
+      "errors": 0,
+      "success_rate": 1.0,
+      "accuracy_all": 0.9161538461538462,
+      "accuracy_success_only": 0.9161538461538462,
+      "macro_f1": 0.922679,
+      "ece_10bins": 0.036936,
+      "brier_multiclass_or_binary": 0.109443,
+      "latency_p50_ms": 259.13,
+      "latency_p95_ms": 406.035,
+      "latency_p99_ms": 1072.912,
+      "latency_mean_ms": 298.213,
+      "score_mae": 0.265,
+      "score_within_one": 1.0,
+      "mean_confidence": 0.895371,
+      "gate_0.70": {
+        "coverage": 0.86,
+        "accepted": 1118,
+        "error_rate": 0.033095,
+        "errors": 37
+      },
+      "gate_0.80": {
+        "coverage": 0.786923,
+        "accepted": 1023,
+        "error_rate": 0.005865,
+        "errors": 6
+      },
+      "gate_0.90": {
+        "coverage": 0.716154,
+        "accepted": 931,
+        "error_rate": 0.003222,
+        "errors": 3
+      },
+      "gate_0.95": {
+        "coverage": 0.640769,
+        "accepted": 833,
+        "error_rate": 0.0012,
+        "errors": 1
+      }
+    },
+    "2": {
+      "count": 1300,
+      "successful": 1300,
+      "errors": 0,
+      "success_rate": 1.0,
+      "accuracy_all": 0.9161538461538462,
+      "accuracy_success_only": 0.9161538461538462,
+      "macro_f1": 0.922679,
+      "ece_10bins": 0.036937,
+      "brier_multiclass_or_binary": 0.109439,
+      "latency_p50_ms": 302.11,
+      "latency_p95_ms": 451.177,
+      "latency_p99_ms": 1261.904,
+      "latency_mean_ms": 336.397,
+      "score_mae": 0.265,
+      "score_within_one": 1.0,
+      "mean_confidence": 0.895373,
+      "gate_0.70": {
+        "coverage": 0.86,
+        "accepted": 1118,
+        "error_rate": 0.033095,
+        "errors": 37
+      },
+      "gate_0.80": {
+        "coverage": 0.786923,
+        "accepted": 1023,
+        "error_rate": 0.005865,
+        "errors": 6
+      },
+      "gate_0.90": {
+        "coverage": 0.716154,
+        "accepted": 931,
+        "error_rate": 0.003222,
+        "errors": 3
+      },
+      "gate_0.95": {
+        "coverage": 0.640769,
+        "accepted": 833,
+        "error_rate": 0.0012,
+        "errors": 1
+      }
+    }
+  },
+  "repeat_consistency": 1.0,
+  "repeat_items": 1300,
+  "option_order_consistency": 0.9875,
+  "option_order_pairs": 80,
+  "second_pass_vs_first_pass_p50_speedup": 0.858,
+  "note": "Score exact class = argmax over ordinal-level probabilities. ECE uses predicted-label top probability. Failed requests count wrong in accuracy_all. Latency includes client/network time and retries."
+}

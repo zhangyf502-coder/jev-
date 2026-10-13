@@ -1,0 +1,8 @@
+{
+  "name": "jev_latest",
+  "model": "decision-model-preview",
+  "endpoint": "https://maas.qianwenaiapi.com/compatible-mode/v1/systemone",
+  "dataset_sha256": "ef50fdb71d681b679ea21620197999f8bc8a2cfe9d3e25c438ec114ca68e67d7",
+  "dataset": "/root/CLM/database/jev-/clm_jev_benchmark/data/clm_jev_1300.jsonl",
+  "created_utc": "2026-10-13T06:48:38.898335+00:00"
+}
