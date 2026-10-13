@@ -1,0 +1,16 @@
+{
+  "gpus": [
+    3,
+    4
+  ],
+  "samples": 87,
+  "source": "nvidia-smi device global metrics, not per-process attributed",
+  "memory_peak_used_mb": {
+    "3": 12799,
+    "4": 12799
+  },
+  "gpu_util_mean_pct": {
+    "3": 79.24,
+    "4": 80.37
+  }
+}

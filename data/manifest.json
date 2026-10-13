@@ -1,0 +1,42 @@
+{
+  "dataset": "CLM-JEV Synthetic Decision Benchmark",
+  "version": "1.0",
+  "created": "2026-10-13",
+  "count": 1300,
+  "gold_source": "synthetic rule/template; not independently human-reviewed",
+  "comparability": "Exact same input, options, ground truth for all models",
+  "categories": {
+    "commerce_workflow": 120,
+    "customer_support": 160,
+    "document_grounding": 120,
+    "incident_response": 120,
+    "option_order_robustness": 80,
+    "out_of_scope": 100,
+    "security_triage": 120,
+    "semantic_duplicates": 120,
+    "sentiment_scoring": 100,
+    "tool_routing": 160,
+    "urgency_scoring": 100
+  },
+  "question_types": {
+    "choice": 860,
+    "noul": 240,
+    "score": 200
+  },
+  "languages": {
+    "en": 651,
+    "zh": 649
+  },
+  "caveats": [
+    "Synthetic template examples may be easier than real production data.",
+    "Labels reflect author rules and should not be represented as human annotations.",
+    "Paired reorder samples should be reported separately to avoid inflating independence.",
+    "Strong research conclusions require an independent public or expert-labelled test set."
+  ],
+  "sources": {
+    "this_dataset": "Original generated templates; not copied from online data",
+    "public_companion": "https://github.com/Running-Dolphins/jev-bench",
+    "clm": "https://github.com/Contrastive-LM/CLM",
+    "jev": "https://docs.typesafe.ai/introduction"
+  }
+}
