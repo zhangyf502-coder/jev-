@@ -1,0 +1,8 @@
+{
+  "batch_wall_seconds": 72.813,
+  "new_requests": 2600,
+  "qps_new_requests": 35.708,
+  "workers": 1,
+  "warmup": 5,
+  "passes": 2
+}

@@ -1,0 +1,8 @@
+{
+  "name": "laya_english_1300",
+  "model": "english",
+  "endpoint": "http://127.0.0.1:8000/v1/systemone",
+  "dataset_sha256": "ef50fdb71d681b679ea21620197999f8bc8a2cfe9d3e25c438ec114ca68e67d7",
+  "dataset": "/root/CLM/database/jev-/data/clm_jev_1300.jsonl",
+  "created_utc": "2026-10-13T14:07:25.786608+00:00"
+}

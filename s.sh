@@ -1,0 +1,20 @@
+cat > .gitignore <<'EOF'
+# 虚拟环境
+.venv*/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# 大文件
+*.zip
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+
+# 系统/编辑器
+.DS_Store
+.vscode/
+.idea/
+EOF
