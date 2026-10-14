@@ -6,7 +6,6 @@ __pycache__/
 *.pyc
 
 # 大文件
-*.zip
 *.pt
 *.bin
 *.safetensors
