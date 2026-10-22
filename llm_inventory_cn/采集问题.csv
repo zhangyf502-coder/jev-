@@ -1,0 +1,2 @@
+﻿目标地址,阶段,级别,问题代码,说明,建议
+192.168.102.13,CANN,提示,NOT_DETECTED,宿主机未检测到 CANN Toolkit 版本；发现文件：/usr/local/Ascend/driver/version.info; /usr/local/Ascend/firmware/version.info; /usr/local/Ascend/version.info,核对安装记录的 Install_Path；若仅在容器内安装，需在容器中采集
