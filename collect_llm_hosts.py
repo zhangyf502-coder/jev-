@@ -25,8 +25,8 @@ REPORT_FIELDS = {
         "采集时间", "目标地址", "主机名", "系统", "内核", "架构", "CPU型号",
         "CPU逻辑核数", "CPU插槽数", "NUMA节点数", "内存总量_GiB", "内存可用_GiB",
         "IPv4摘要", "网络链路摘要", "加速卡厂商", "加速卡数量",
-        "python3路径", "python3版本", "python路径", "python版本", "Docker_CLI版本",
-        "CUDA驱动支持版本", "CUDA_Toolkit版本", "CANN版本", "采集状态",
+        "python3路径", "python3版本", "Docker_CLI版本",
+        "CUDA驱动支持版本", "CUDA_Toolkit版本", "CANN版本", "CANN版本来源", "采集状态",
     ],
     "accelerators": [
         "目标地址", "厂商", "设备编号", "稳定设备标识", "PCI地址", "型号",
@@ -38,12 +38,16 @@ REPORT_FIELDS = {
         "目标地址", "挂载点", "文件系统类型", "总量_GiB", "可用_GiB",
         "模型目录是否存在", "是否承载模型目录",
     ],
-    "topology": [
-        "目标地址", "设备A", "设备B", "连接类型", "查询状态", "原始摘要",
-    ],
     "issues": [
         "目标地址", "阶段", "级别", "问题代码", "说明", "建议",
     ],
+}
+
+REPORT_FILES = {
+    "servers": "服务器信息.csv",
+    "accelerators": "加速卡信息.csv",
+    "storage": "存储信息.csv",
+    "issues": "采集问题.csv",
 }
 
 
@@ -181,7 +185,7 @@ def write_reports(reports, output_dir):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     for name, fields in REPORT_FIELDS.items():
-        with (output_dir / (name + ".csv")).open("w", encoding="utf-8-sig", newline="") as handle:
+        with (output_dir / REPORT_FILES[name]).open("w", encoding="utf-8-sig", newline="") as handle:
             writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
             writer.writeheader()
             for row in reports.get(name, []):
@@ -210,6 +214,29 @@ def _failure_code(section):
     return "COMMAND_FAILED"
 
 
+def _cann_search_command():
+    """Search common roots and installer-recorded roots; report path and text."""
+    return "\n".join([
+        "{",
+        "  for root in /usr/local/Ascend /root/Ascend \"$HOME/Ascend\" /opt/Ascend; do",
+        "    [ -d \"$root\" ] || continue",
+        "    find \"$root\" -type f \\( -name ascend_toolkit_install.info -o -name version.info \\) -print 2>/dev/null",
+        "  done",
+        "  for info in /etc/Ascend/ascend_cann_install.info \"$HOME/Ascend/ascend_cann_install.info\"; do",
+        "    [ -f \"$info\" ] || continue",
+        "    root=$(sed -n 's/^Install_Path[[:space:]]*=[[:space:]]*//p' \"$info\" | head -n 1)",
+        "    case \"$root\" in",
+        "      /*) [ -d \"$root\" ] && find \"$root\" -type f \\( -name ascend_toolkit_install.info -o -name version.info \\) -print 2>/dev/null ;;",
+        "    esac",
+        "  done",
+        "} | sort -u | while IFS= read -r path; do",
+        "  printf 'PATH:%s\\n' \"$path\"",
+        "  head -n 80 \"$path\"",
+        "  printf 'ENDPATH\\n'",
+        "done",
+    ])
+
+
 def _base_probe_script(model_dir):
     """Generate fixed read-only shell commands; only a quoted path varies."""
     lines = [
@@ -227,19 +254,15 @@ def _base_probe_script(model_dir):
         "run net_speed sh -c 'for p in /sys/class/net/*/speed; do [ -f \"$p\" ] || continue; n=${p%/speed}; n=${n##*/}; v=$(cat \"$p\" 2>/dev/null); printf \"%s %s\\n\" \"$n\" \"$v\"; done'",
         "run python3_path sh -c 'command -v python3'",
         "run python3_version python3 -V",
-        "run python_path sh -c 'command -v python'",
-        "run python_version python -V",
         "run docker_version docker --version",
         "run nvidia_query nvidia-smi --query-gpu=index,uuid,name,memory.total,memory.used,memory.free,utilization.gpu,driver_version,pci.bus_id --format=csv,noheader,nounits",
         "run nvidia_basic nvidia-smi -L",
         "run nvidia_mig nvidia-smi --query-gpu=index,mig.mode.current --format=csv,noheader",
         "run nvidia_cuda nvidia-smi",
-        "run nvidia_topo nvidia-smi topo -m",
         "run cuda_toolkit nvcc --version",
         "run npu_info npu-smi info",
         "run npu_list npu-smi info -l",
-        "run npu_topo npu-smi info -t topo",
-        "run cann_version sh -c 'found=0; for p in /usr/local/Ascend/ascend-toolkit/latest/*-linux/ascend_toolkit_install.info /usr/local/Ascend/cann/*-linux/ascend_toolkit_install.info \"$HOME\"/Ascend/ascend-toolkit/latest/*-linux/ascend_toolkit_install.info \"$HOME\"/Ascend/cann/*-linux/ascend_toolkit_install.info; do if [ -f \"$p\" ]; then printf \"PATH:%s\\n\" \"$p\"; head -n 30 \"$p\"; found=1; fi; done; [ \"$found\" -eq 1 ]'",
+        "run cann_files sh -c " + shlex.quote(_cann_search_command()),
     ]
     if model_dir:
         quoted = shlex.quote(model_dir)
@@ -317,21 +340,6 @@ def _storage_rows(raw, target, model_dir, model_mount, model_exists):
     return rows
 
 
-def _parse_topology(raw, target):
-    lines = [line.split() for line in raw.splitlines() if line.strip()]
-    header = next((row for row in lines if len(row) >= 2 and row[0] == "GPU0" and row[1].startswith("GPU")), [])
-    devices = [part for part in header if re.fullmatch(r"GPU\d+", part)]
-    result = []
-    for row in lines:
-        if row is header or not row or row[0] not in devices or len(row) < len(devices) + 1:
-            continue
-        for position, other in enumerate(devices):
-            if int(row[0][3:]) < int(other[3:]):
-                result.append({"目标地址": target, "设备A": row[0], "设备B": other,
-                               "连接类型": row[position + 1], "查询状态": "已读取", "原始摘要": ""})
-    return result
-
-
 def _network_summary(addresses, links, speeds):
     ipv4 = []
     for line in addresses.splitlines():
@@ -352,9 +360,57 @@ def _network_summary(addresses, links, speeds):
     return "; ".join(ipv4), "; ".join(summary)
 
 
+def _cann_file_blocks(raw):
+    """Keep candidate provenance so driver/firmware files cannot become CANN."""
+    blocks = []
+    path = None
+    content = []
+    for line in raw.splitlines():
+        if line.startswith("PATH:"):
+            if path is not None:
+                blocks.append((path, "\n".join(content)))
+            path = line[5:].strip()
+            content = []
+        elif line == "ENDPATH":
+            if path is not None:
+                blocks.append((path, "\n".join(content)))
+            path = None
+            content = []
+        elif path is not None:
+            content.append(line)
+    if path is not None:
+        blocks.append((path, "\n".join(content)))
+    return blocks
+
+
+def _cann_toolkit_records(raw):
+    records = []
+    for path, content in _cann_file_blocks(raw):
+        filename = path.rsplit("/", 1)[-1]
+        if filename not in ("ascend_toolkit_install.info", "version.info"):
+            continue
+        fields = {}
+        for line in content.splitlines():
+            if "=" in line:
+                key, value = line.split("=", 1)
+                fields[key.strip().lower()] = value.strip()
+        package = fields.get("package_name", "")
+        if filename == "version.info" and not package.lower().startswith("ascend-cann-toolkit"):
+            continue
+        if filename == "ascend_toolkit_install.info" and package and "toolkit" not in package.lower():
+            continue
+        version = fields.get("version", "")
+        if version:
+            records.append((version, path))
+    return records
+
+
 def _cann_version(raw):
-    found = re.findall(r"(?im)^(?:Version|CANN_VERSION|version_dir)\s*[:=]\s*([^\s]+)", raw)
-    return "; ".join(dict.fromkeys(found))
+    return "; ".join(dict.fromkeys(version for version, _ in _cann_toolkit_records(raw)))
+
+
+def _cann_version_sources(raw):
+    return "; ".join(dict.fromkeys(path for _, path in _cann_toolkit_records(raw)))
 
 
 def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
@@ -379,8 +435,12 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
             stderr, re.IGNORECASE,
         )
         code = "SSH_AUTH_FAILED" if auth_failed else "SSH_FAILED"
-        advice = ("在汇聚机为目标账号配置公钥认证，并用 BatchMode=yes 验证；核对目标账号登录策略"
-                  if auth_failed else "检查内网连通性、SSH 密钥和 known_hosts")
+        if auth_failed and interactive_auth:
+            advice = "核对输入的密码及目标账号是否允许密码登录"
+        elif auth_failed:
+            advice = "在汇聚机为目标账号配置公钥认证，并用 BatchMode=yes 验证；核对目标账号登录策略"
+        else:
+            advice = "检查内网连通性、SSH 密钥和 known_hosts"
         _add_issue(reports, label, "SSH", code, stderr, advice, "错误")
         return
 
@@ -415,16 +475,22 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
         _add_issue(reports, label, "模型目录", "NOT_DETECTED", "模型目录不存在：" + model_dir,
                    "核对 --model-dir 或目标机挂载点")
 
-    for prefix in ("python3", "python"):
-        path = _section(sections, prefix + "_path")
-        version = _section(sections, prefix + "_version")
-        server[prefix + "路径"] = path.output if path.returncode == 0 else ""
-        code = _failure_code(version) if version.returncode != 0 else ""
-        server[prefix + "版本"] = (parse_python_version(version.output) if version.returncode == 0
-                                    else ("未安装" if code == "NOT_INSTALLED" else "查询失败"))
-        if version.returncode != 0:
-            _add_issue(reports, label, "Python", code, prefix + " 命令不可用：" + version.output,
-                       "核对当前 SSH 用户的 PATH")
+    python3_path = _section(sections, "python3_path")
+    python3_version = _section(sections, "python3_version")
+    server["python3路径"] = python3_path.output if python3_path.returncode == 0 else ""
+    python3_code = _failure_code(python3_version) if python3_version.returncode != 0 else ""
+    server["python3版本"] = (
+        parse_python_version(python3_version.output) if python3_version.returncode == 0
+        else ("未安装" if python3_code == "NOT_INSTALLED" else "查询失败")
+    )
+    if python3_version.returncode != 0:
+        _add_issue(reports, label, "Python3", python3_code,
+                   "python3 命令不可用：" + python3_version.output,
+                   "核对当前 SSH 用户的 PATH")
+    elif not server["python3版本"]:
+        server["python3版本"] = "查询失败"
+        _add_issue(reports, label, "Python3", "PARSE_FAILED",
+                   "无法解析 python3 -V 输出", "核对当前解释器版本格式")
     docker = _section(sections, "docker_version")
     docker_code = _failure_code(docker) if docker.returncode != 0 else ""
     server["Docker_CLI版本"] = (parse_docker_cli_version(docker.output) if docker.returncode == 0
@@ -454,9 +520,6 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
             for device in devices:
                 if device["厂商"] == "NVIDIA":
                     device["分区状态"] = modes.get(device["设备编号"], "未检测")
-        topo = _section(sections, "nvidia_topo")
-        if topo.returncode == 0:
-            reports["topology"].extend(_parse_topology(topo.output, label))
     elif _section(sections, "nvidia_basic").returncode == 0 and "No devices" not in _section(sections, "nvidia_basic").output:
         _add_issue(reports, label, "NVIDIA", "COMMAND_FAILED", "设备可列出，但结构化查询失败",
                    "核对 nvidia-smi --help-query-gpu 与驱动版本")
@@ -480,25 +543,6 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
             _add_issue(reports, label, "昇腾", "PARSE_FAILED", "npu-smi 返回内容无法识别设备行",
                        "用现场 npu-smi info 输出核对当前型号格式")
         devices.extend(parsed)
-        topo = _section(sections, "npu_topo")
-        unsupported_text = "does not support" in topo.output.lower() or "not supported" in topo.output.lower()
-        topo_code = _failure_code(topo) if topo.returncode != 0 or unsupported_text else ""
-        topo_status = {"UNSUPPORTED": "不支持", "PERMISSION_DENIED": "权限不足",
-                       "NOT_INSTALLED": "命令缺失"}.get(topo_code, "查询失败")
-        reports["topology"].append({
-            "目标地址": label, "设备A": "", "设备B": "", "连接类型": "",
-            "查询状态": "已读取，需核对" if not topo_code else topo_status,
-            "原始摘要": " ".join(topo.output.split())[:500],
-        })
-        if topo_code:
-            _add_issue(reports, label, "拓扑", topo_code, "昇腾拓扑查询不可用：" + topo.output,
-                       "核对设备型号与 npu-smi 支持范围")
-        cann = _section(sections, "cann_version")
-        server["CANN版本"] = _cann_version(cann.output) if cann.returncode == 0 else ""
-        if not server["CANN版本"]:
-            _add_issue(reports, label, "CANN", "NOT_DETECTED", "宿主机未检测到 CANN 版本",
-                       "核对安装路径；若只安装在容器内，需另行采集")
-
         ids = sorted({device["设备编号"] for device in parsed}, key=int)
         if ids:
             board_result = query(_board_probe_script(ids))
@@ -520,6 +564,16 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
     elif ascend.returncode != 0 and _failure_code(ascend) == "PERMISSION_DENIED":
         _add_issue(reports, label, "昇腾", "PERMISSION_DENIED", "NPU 查询权限不足：" + ascend.output,
                    "核对设备节点和当前 SSH 用户权限")
+
+    cann = _section(sections, "cann_files")
+    server["CANN版本"] = _cann_version(cann.output) if cann.returncode == 0 else ""
+    server["CANN版本来源"] = _cann_version_sources(cann.output) if cann.returncode == 0 else ""
+    if any(device["厂商"] == "Ascend" for device in devices) and not server["CANN版本"]:
+        paths = [path for path, _ in _cann_file_blocks(cann.output)]
+        found = "；发现文件：" + "; ".join(paths[:5]) if paths else ""
+        _add_issue(reports, label, "CANN", "NOT_DETECTED",
+                   "宿主机未检测到 CANN Toolkit 版本" + found,
+                   "核对安装记录的 Install_Path；若仅在容器内安装，需在容器中采集")
 
     reports["accelerators"].extend(devices)
     vendors = sorted({device["厂商"] for device in devices})
