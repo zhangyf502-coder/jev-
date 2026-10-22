@@ -26,7 +26,8 @@ REPORT_FIELDS = {
         "CPU逻辑核数", "CPU插槽数", "NUMA节点数", "内存总量_GiB", "内存可用_GiB",
         "IPv4摘要", "网络链路摘要", "加速卡厂商", "加速卡数量",
         "python3路径", "python3版本", "Docker_CLI版本",
-        "CUDA驱动支持版本", "CUDA_Toolkit版本", "CANN版本", "CANN版本来源", "采集状态",
+        "CUDA驱动支持版本", "CANN版本", "CANN版本来源",
+        "CANN检测状态", "Ascend已发现版本文件", "采集状态",
     ],
     "accelerators": [
         "目标地址", "厂商", "设备编号", "稳定设备标识", "PCI地址", "型号",
@@ -259,7 +260,6 @@ def _base_probe_script(model_dir):
         "run nvidia_basic nvidia-smi -L",
         "run nvidia_mig nvidia-smi --query-gpu=index,mig.mode.current --format=csv,noheader",
         "run nvidia_cuda nvidia-smi",
-        "run cuda_toolkit nvcc --version",
         "run npu_info npu-smi info",
         "run npu_list npu-smi info -l",
         "run cann_files sh -c " + shlex.quote(_cann_search_command()),
@@ -531,11 +531,6 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
     match = re.search(r"CUDA Version:\s*([0-9.]+)", cuda.output)
     if match and any(device["厂商"] == "NVIDIA" for device in devices):
         server["CUDA驱动支持版本"] = match.group(1)
-    nvcc = _section(sections, "cuda_toolkit")
-    match = re.search(r"\brelease\s+([0-9.]+)", nvcc.output)
-    if match and any(device["厂商"] == "NVIDIA" for device in devices):
-        server["CUDA_Toolkit版本"] = match.group(1)
-
     ascend = _section(sections, "npu_info")
     if ascend.returncode == 0 and ascend.output:
         parsed = parse_ascend_info(ascend.output, label)
@@ -566,14 +561,24 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
                    "核对设备节点和当前 SSH 用户权限")
 
     cann = _section(sections, "cann_files")
+    paths = list(dict.fromkeys(path for path, _ in _cann_file_blocks(cann.output)))
+    server["Ascend已发现版本文件"] = "; ".join(paths)
     server["CANN版本"] = _cann_version(cann.output) if cann.returncode == 0 else ""
     server["CANN版本来源"] = _cann_version_sources(cann.output) if cann.returncode == 0 else ""
-    if any(device["厂商"] == "Ascend" for device in devices) and not server["CANN版本"]:
-        paths = [path for path, _ in _cann_file_blocks(cann.output)]
-        found = "；发现文件：" + "; ".join(paths[:5]) if paths else ""
-        _add_issue(reports, label, "CANN", "NOT_DETECTED",
-                   "宿主机未检测到 CANN Toolkit 版本" + found,
-                   "核对安装记录的 Install_Path；若仅在容器内安装，需在容器中采集")
+    if server["CANN版本"]:
+        server["CANN检测状态"] = "已确认 Toolkit 版本"
+    elif any(device["厂商"] == "Ascend" for device in devices):
+        if cann.returncode != 0:
+            server["CANN检测状态"] = "查询失败"
+            _add_issue(reports, label, "CANN", _failure_code(cann),
+                       "CANN 版本文件查询失败：" + cann.output,
+                       "核对 Ascend 安装目录及当前 SSH 用户读取权限")
+        else:
+            server["CANN检测状态"] = "未确认 Toolkit 版本"
+            found = "；发现文件：" + "; ".join(paths[:5]) if paths else ""
+            _add_issue(reports, label, "CANN", "NOT_DETECTED",
+                       "宿主机未检测到 CANN Toolkit 版本" + found,
+                       "核对安装记录的 Install_Path；若仅在容器内安装，需在容器中采集")
 
     reports["accelerators"].extend(devices)
     vendors = sorted({device["厂商"] for device in devices})
