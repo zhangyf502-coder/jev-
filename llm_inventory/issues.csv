@@ -1,0 +1,3 @@
+﻿目标地址,阶段,级别,问题代码,说明,建议
+192.168.102.13,Python,提示,NOT_INSTALLED,python 命令不可用：main: line 2: python: command not found,核对当前 SSH 用户的 PATH
+192.168.102.13,CANN,提示,NOT_DETECTED,宿主机未检测到 CANN 版本,核对安装路径；若只安装在容器内，需另行采集
