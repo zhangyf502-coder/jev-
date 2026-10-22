@@ -259,9 +259,10 @@ def _board_probe_script(ids):
     return "\n".join(lines) + "\n"
 
 
-def run_ssh(target, script, connect_timeout, command_timeout):
+def run_ssh(target, script, connect_timeout, command_timeout, interactive_auth=False):
     command = [
-        "ssh", "-T", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes",
+        "ssh", "-T", "-o", "BatchMode={}".format("no" if interactive_auth else "yes"),
+        "-o", "StrictHostKeyChecking=yes",
         "-o", "ConnectTimeout={}".format(connect_timeout), target, "sh", "-s",
     ]
     try:
@@ -357,17 +358,30 @@ def _cann_version(raw):
 
 
 def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
-                   connect_timeout=10, command_timeout=60):
+                   connect_timeout=10, command_timeout=60, interactive_auth=False):
     """Collect one explicit target; append partial results and classified issues."""
     validate_target(target)
     label = target.rsplit("@", 1)[-1]
     server = {"采集时间": timestamp, "目标地址": label, "采集状态": "失败"}
     reports["servers"].append(server)
-    result = runner(target, _base_probe_script(model_dir), connect_timeout, command_timeout)
+    def query(script):
+        if interactive_auth:
+            return runner(target, script, connect_timeout, command_timeout,
+                          interactive_auth=True)
+        return runner(target, script, connect_timeout, command_timeout)
+
+    result = query(_base_probe_script(model_dir))
     sections = parse_sections(result.stdout or "")
     if not sections:
-        _add_issue(reports, label, "SSH", "SSH_FAILED", (result.stderr or "无命令输出").strip(),
-                   "检查内网连通性、SSH 密钥和 known_hosts", "错误")
+        stderr = (result.stderr or "无命令输出").strip()
+        auth_failed = re.search(
+            r"Permission denied\s*\((?:publickey|password|keyboard-interactive)[^)]*\)",
+            stderr, re.IGNORECASE,
+        )
+        code = "SSH_AUTH_FAILED" if auth_failed else "SSH_FAILED"
+        advice = ("在汇聚机为目标账号配置公钥认证，并用 BatchMode=yes 验证；核对目标账号登录策略"
+                  if auth_failed else "检查内网连通性、SSH 密钥和 known_hosts")
+        _add_issue(reports, label, "SSH", code, stderr, advice, "错误")
         return
 
     server["主机名"] = _section(sections, "hostname").output
@@ -487,7 +501,7 @@ def collect_target(target, timestamp, model_dir, reports, runner=run_ssh,
 
         ids = sorted({device["设备编号"] for device in parsed}, key=int)
         if ids:
-            board_result = runner(target, _board_probe_script(ids), connect_timeout, command_timeout)
+            board_result = query(_board_probe_script(ids))
             boards = parse_sections(board_result.stdout or "")
             for device in parsed:
                 board = _section(boards, "npu_board_" + device["设备编号"])
@@ -523,11 +537,15 @@ def main(argv=None):
     parser.add_argument("--hosts", required=True, help="逗号分隔的 SSH 目标，例如 ops@10.20.1.11,ops@10.20.1.12")
     parser.add_argument("--model-dir", default="", help="可选：目标机上的模型目录")
     parser.add_argument("--output", default="./llm_inventory", help="本地 CSV 输出目录")
+    parser.add_argument("--ssh-auth", choices=("key", "interactive"), default="key",
+                        help="SSH 认证方式：key 为非交互默认值；interactive 在终端提示输入密码或密钥口令")
     parser.add_argument("--connect-timeout", type=int, default=10, help="SSH 连接超时秒数")
     parser.add_argument("--command-timeout", type=int, default=60, help="单次 SSH 查询超时秒数")
     args = parser.parse_args(argv)
     if args.connect_timeout < 1 or args.command_timeout < 1:
         parser.error("超时参数必须大于 0")
+    if args.ssh_auth == "interactive" and not sys.stdin.isatty():
+        parser.error("--ssh-auth interactive 必须在交互式终端运行")
     try:
         targets = list(dict.fromkeys(validate_target(item.strip()) for item in args.hosts.split(",")))
         validate_model_dir(args.model_dir)
@@ -537,7 +555,8 @@ def main(argv=None):
     timestamp = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M:%S %z")
     for target in targets:
         collect_target(target, timestamp, args.model_dir, reports, run_ssh,
-                       args.connect_timeout, args.command_timeout)
+                       args.connect_timeout, args.command_timeout,
+                       interactive_auth=args.ssh_auth == "interactive")
         print("{}：{}".format(target, reports["servers"][-1]["采集状态"]))
     write_reports(reports, Path(args.output))
     counts = {state: sum(row["采集状态"] == state for row in reports["servers"])
